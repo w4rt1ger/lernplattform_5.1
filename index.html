@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragenkatalog</title>
+    <style>
+        /* Einfache CSS für das Styling */
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .question { margin: 20px 0; }
+        .dropdown { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="dropdown">
+        <label for="sheetSelect">Wähle ein Blatt:</label>
+        <select id="sheetSelect" onchange="loadSheet()"></select>
+    </div>
+
+    <div class="question">
+        <p id="questionText"></p>
+        <input type="text" id="answerInput" placeholder="Deine Antwort">
+        <button onclick="checkAnswer()">Antwort überprüfen</button>
+    </div>
+
+    <script>
+        let data;
+        let sheetName;
+        let currentQuestionIndex = 0;
+        let attempts = 0;
+
+        // Lade die JSON-Daten
+        fetch('fragen.json')
+            .then(response => response.json())
+            .then(json => {
+                data = json;
+                const sheetSelect = document.getElementById('sheetSelect');
+                sheetSelect.innerHTML = '';
+
+                for (const sheet in data) {
+                    const option = document.createElement('option');
+                    option.value = sheet;
+                    option.innerText = sheet;
+                    sheetSelect.appendChild(option);
+                }
+
+                loadSheet();
+            });
+
+        function loadSheet() {
+            sheetName = document.getElementById('sheetSelect').value;
+            currentQuestionIndex = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const questionData = data[sheetName][currentQuestionIndex];
+            document.getElementById('questionText').innerText = questionData.Frage;
+        }
+
+        function checkAnswer() {
+            const answerInput = document.getElementById('answerInput').value;
+            const questionData = data[sheetName][currentQuestionIndex];
+
+            if (answerInput.toLowerCase() === questionData.Antwort.toLowerCase()) {
+                alert('Richtig!');
+                attempts = 0;
+                currentQuestionIndex++;
+                if (currentQuestionIndex >= data[sheetName].length) {
+                    alert('Du hast alle Fragen beantwortet!');
+                    currentQuestionIndex = 0;
+                }
+                showQuestion();
+            } else {
+                attempts++;
+                if (attempts >= 3) {
+                    alert('Falsch! Die richtige Antwort ist: ' + questionData.Antwort);
+                    attempts = 0;
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex >= data[sheetName].length) {
+                        alert('Du hast alle Fragen beantwortet!');
+                        currentQuestionIndex = 0;
+                    }
+                    showQuestion();
+                }
+            }
+            document.getElementById('answerInput').value = '';
+        }
+    </script>
+</body>
+</html>
