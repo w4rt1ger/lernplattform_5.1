@@ -12,6 +12,7 @@
     </style>
 </head>
 <body>
+    <p id="score">Punkte: 0</p>
     <div class="dropdown">
         <label for="sheetSelect">Wähle ein Blatt:</label>
         <select id="sheetSelect" onchange="loadSheet()"></select>
@@ -19,7 +20,7 @@
 
     <div class="question">
         <p id="questionText"></p>
-        <input type="text" id="answerInput" placeholder="Deine Antwort">
+        <input type="text" id="answerInput" placeholder="Deine Antwort" onkeypress="handleKeyPress(event)">
         <button onclick="checkAnswer()">Antwort überprüfen</button>
     </div>
 
@@ -28,6 +29,7 @@
         let sheetName;
         let currentQuestionIndex = 0;
         let attempts = 0;
+        let score = 0;
 
         // Lade die JSON-Daten
         fetch('fragen.json')
@@ -47,6 +49,12 @@
                 loadSheet();
             });
 
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                checkAnswer();
+            }
+        }
+
         function loadSheet() {
             sheetName = document.getElementById('sheetSelect').value;
             currentQuestionIndex = 0;
@@ -63,28 +71,41 @@
             const questionData = data[sheetName][currentQuestionIndex];
 
             if (answerInput.toLowerCase() === questionData.Antwort.toLowerCase()) {
-                alert('Richtig!');
-                attempts = 0;
+                score++;
                 currentQuestionIndex++;
                 if (currentQuestionIndex >= data[sheetName].length) {
                     alert('Du hast alle Fragen beantwortet!');
                     currentQuestionIndex = 0;
                 }
+                attempts = 0;
+                updateScore();
                 showQuestion();
             } else {
                 attempts++;
                 if (attempts >= 3) {
-                    alert('Falsch! Die richtige Antwort ist: ' + questionData.Antwort);
-                    attempts = 0;
                     currentQuestionIndex++;
                     if (currentQuestionIndex >= data[sheetName].length) {
                         alert('Du hast alle Fragen beantwortet!');
                         currentQuestionIndex = 0;
                     }
+                    attempts = 0;
+                    showAnswer(questionData.Antwort);
                     showQuestion();
                 }
             }
             document.getElementById('answerInput').value = '';
+        }
+        function updateScore() {
+            document.getElementById('score').innerText = `Punkte: ${score}`;
+        }
+
+        function showAnswer(answer) {
+            const answerDiv = document.createElement('div');
+            answerDiv.textContent = `Die richtige war Antwort ist: ${answer}`;
+            document.body.appendChild(answerDiv);
+            setTimeout(() => {
+                document.body.removeChild(answerDiv);
+            }, 10000);
         }
     </script>
 </body>
