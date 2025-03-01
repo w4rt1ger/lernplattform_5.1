@@ -19,6 +19,7 @@
     </div>
 
     <div class="question">
+        <p>Frage:</p>
         <p id="questionText"></p>
         <input type="text" id="answerInput" placeholder="Deine Antwort" onkeypress="handleKeyPress(event)">
         <button onclick="checkAnswer()">Antwort überprüfen</button>
@@ -101,7 +102,7 @@
 
         function showAnswer(answer) {
             const answerDiv = document.createElement('div');
-            answerDiv.textContent = `Die richtige war Antwort ist: ${answer}`;
+            answerDiv.textContent = `Die richtige Antwort war: ${answer}`;
             document.body.appendChild(answerDiv);
             setTimeout(() => {
                 document.body.removeChild(answerDiv);
