@@ -1,6 +1,6 @@
-.PHONY: all install_node install_npm install_python check_python_version start_server generate_json
+.PHONY: all install_node install_npm install_python check_python_version start_server generate_json open_browser
 
-all: install_node install_npm install_python check_python_version start_server generate_json
+all: install_node install_npm install_python check_python_version generate_json open_browser start_server
 
 install_node:
 	powershell -Command "Invoke-WebRequest -Uri 'https://nodejs.org/dist/v16.13.0/node-v16.13.0-x64.msi' -OutFile 'node-v16.13.0-x64.msi'"
@@ -16,8 +16,11 @@ install_python:
 check_python_version:
 	powershell -Command "py --version"
 
-start_server:
-	powershell -Command "Start-Process -NoNewWindow -FilePath 'powershell' -ArgumentList 'py -m http.server 8000'"
-
 generate_json:
 	node .\excel_to_json.js
+
+open_browser:
+	powershell -Command "Start-Process 'http://localhost:8000'"
+
+start_server:
+	powershell -Command "Start-Process -NoNewWindow -FilePath 'powershell' -ArgumentList 'py -m http.server 8000'"

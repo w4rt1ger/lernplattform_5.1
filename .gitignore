@@ -1,5 +1,6 @@
 /node_modules
 fragen.json
 package-lock.json
-python-3.11.5-amd64.exe
+python-?.??.?-amd64.exe
 ~*
+node-v??.??.?-x64.msi
