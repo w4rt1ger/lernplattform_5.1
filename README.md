@@ -1,18 +1,15 @@
-Activate Make files:
-Make sure choco is installed:
-PS als ADMIN:
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+winget install GnuWin32.Make
 
-Install make:
-choco install make
+Then use the command 
+- make install
+- make learn
 
-
+Visit makefile for more commands
 
 
-npm install xlsx
-Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.5/python-3.11.5-amd64.exe -OutFile python-3.11.5-amd64.exe
-Start-Process -FilePath "python-3.11.5-amd64.exe" -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
-py --version
-python -m http.server 8000
-node .\excel_to_json.js
+Udemykurs:
+https://www.udemy.com/course/lpic-1-linux-bootcamp-in-30-tagen-zum-linux-admin/
 
+Um die Befehle auszuprobieren,
+folge der Installation von Udemy,
+oder installiere CentOS7 und Ubuntu auf Hyper-V
