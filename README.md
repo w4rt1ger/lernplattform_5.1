@@ -1,4 +1,4 @@
-winget install GnuWin32.Make
+winget install -e --id GnuWin32.Make
 
 Then use the command 
 - make install
