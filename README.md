@@ -1,4 +1,6 @@
 winget install -e --id GnuWin32.Make
+$env:Path += ";C:\Program Files (x86)\GnuWin32\bin"
+[System.Environment]::SetEnvironmentVariable("Path", $env:Path, [System.EnvironmentVariableTarget]::User)
 
 Then use the command 
 - make install

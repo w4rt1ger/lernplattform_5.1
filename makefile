@@ -4,7 +4,9 @@ all: install_node install_npm install_python check_python_version generate_json 
 install: install_node install_npm install_python check_python_version
 learn: generate_json open_browser start_server
 
+
 install_node:
+	powershell -Command "$$env:Path += ';C:\Program Files (x86)\GnuWin32\bin;C:\Program Files\nodejs'; [System.Environment]::SetEnvironmentVariable('Path', $$env:Path, [System.EnvironmentVariableTarget]::User)"
 	powershell -Command "Invoke-WebRequest -Uri 'https://nodejs.org/dist/v16.13.0/node-v16.13.0-x64.msi' -OutFile 'node-v16.13.0-x64.msi'"
 	powershell -Command "Start-Process -FilePath 'node-v16.13.0-x64.msi' -ArgumentList '/quiet' -Wait"
 
